@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myaws.myapp.persistance.MemberMapper"><!-- Member_Mapper마이바티스용  -->
+
+<insert id="memberInsert" parameterType="mv">
+insert into member(memberid,memberpwd,membername,membergender,memberbirth,memberaddr,memberphone,memberemail,memberhobby)
+values(#{memberid},#{memberpwd},#{membername},#{membergender},#{memberbirth},#{memberaddr},#{memberphone},#{memberemail},#{memberhobby});
+<!-- values(#{memberid},#{memberpwd},#{membername},#{membergender},#{memberbirth},#{memberaddr},#{memberphone},#{memberemail},#{memberhobby});에서 
+마지막인 #{memberhobby}"; 이렇게 해서 에러가 남  -->
+</insert>
+
+
+</mapper>
