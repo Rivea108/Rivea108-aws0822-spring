@@ -1,4 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+String msg="";
+if(request.getAttribute("msg") != null){
+msg = (String)request.getAttribute("msg");
+}
+%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
  <HEAD>
@@ -78,10 +86,19 @@ label span {
    </style>
   
   <script>
+  
+  <%
+  if(msg !=""){
+  out.println("alert('"+msg+"')");
+  }
+  %>
+  
   //아이디 비밀번호 유효성 검사
   function check() {
 	  //이름으로 객체찾기
-	  let memberid = document.getElementsByName("memberid");
+	  let memberid = document.getElementsByName("memberid"); //소문자였음(멤버 컨트롤러 80줄) 
+	  //소문자이기에 이것도 소문자로 세팅 멤버컨트롤러 80줄로 이동
+	  
 	  let memberpwd = document.getElementsByName("memberpwd");
 /* 	  alert(memberid[0].value);
 	  alert(memberpwd[0].value); */
@@ -119,7 +136,7 @@ label span {
    <tr> 
    <th>아이디</th>
          <td>
-            <input type="text" name="memberid" style="width:150px;" maxlength="30">
+            <input type="text" name="memberid" style="width:150px;" maxlength="30"> <!-- name의 memberid가 소문자이기에 84줄로 이동 -->
          </td>
    </tr>
    <tr> 

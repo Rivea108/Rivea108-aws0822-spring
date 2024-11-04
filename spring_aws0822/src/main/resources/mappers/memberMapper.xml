@@ -10,6 +10,13 @@ values(#{memberid},#{memberpwd},#{membername},#{membergender},#{memberbirth},#{m
 <!-- values(#{memberid},#{memberpwd},#{membername},#{membergender},#{memberbirth},#{memberaddr},#{memberphone},#{memberemail},#{memberhobby});에서 
 마지막인 #{memberhobby}"; 이렇게 해서 에러가 남  -->
 </insert>
+<select id="memberIdCheck" parameterType="String" resultType="int"> <!-- 마이바티스에서는 integer안써도 된다 -->
+select count(*) as cnt from member where memberid=#{memberId}
+</select>
+
+<select id="memberLoginCheck" parameterType="String" resultType="mv"> <!-- 마이바티스에서는 integer안써도 된다 -->
+select * from member where memberid = #{memberId} <!-- and memberpwd = #{memberId} 비밀번호가 없는 값이 들어가서 안됐음 -->
+</select>
 
 
 </mapper>

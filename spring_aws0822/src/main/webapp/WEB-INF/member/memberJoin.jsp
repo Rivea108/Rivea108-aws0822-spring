@@ -59,11 +59,11 @@ function check(){
 	}else if (hobbyCheck() ==false)  {	
 		alert("취미를 한개 이상 선택해주세요");	
 		return;
-	}/* else if (fm.memberpwd.value =="N"){		
+	} else if (fm.memberpwd.value =="N"){		
 	alert("아이디 중복체크를 해주세요");
 	fm.memberId.focus();
 	return;
-    } */	
+    }	
 	
 	var ans = confirm("저장하시겠습니까?");
 	
@@ -108,13 +108,13 @@ $(document).ready(function(){
 			return;
 		}
 	
-		$.ajax({
+		$.ajax({ //비동기화 비동기통신
 			type :  "post",    //전송방식
-			url : "<%=request.getContextPath()%>/member/memberIdCheck.aws",
+			url : "<%=request.getContextPath()%>/member/memberIdCheck.aws", 
 			dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 			data : {"memberId" : memberId },
 			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
-				//alert("전송성공 테스트");
+				//alert("전송성공 테스트"); 잘 되었슴
 			//	alert("길이는"+result.length);
 			//	alert("cnt값은"+result.cnt);
 			if(result.cnt ==0){

@@ -11,4 +11,4 @@
 <br>
 <a href="<%= request.getContextPath() %>/member/memberLogin.aws">회원로그인 페이지</a>
 </body>	
-</html>
+</html>	
