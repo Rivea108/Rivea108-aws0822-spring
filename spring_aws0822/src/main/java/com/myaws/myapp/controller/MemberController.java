@@ -1,6 +1,6 @@
 package com.myaws.myapp.controller;
 
-import java.lang.ProcessBuilder.Redirect;
+import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myaws.myapp.domain.MemberVo;
 import com.myaws.myapp.service.MemberService;
-
-import netscape.javascript.JSObject;
 
 @Controller //객체생성, @어노테이션
 @RequestMapping(value="/member/")
@@ -51,9 +50,9 @@ public class MemberController { //객체생성
 	
 	  @RequestMapping(value="memberJoinAction.aws", method=RequestMethod.POST)
 	  public String memberJoinAction(MemberVo mv) {
-	  logger.info("memberJoinAction들어옴");
+	  //logger.info("memberJoinAction들어옴");
 		
-		  logger.info("bCryptPasswordEncoder들어옴" + bCryptPasswordEncoder);
+		  //logger.info("bCryptPasswordEncoder들어옴" + bCryptPasswordEncoder);
 		  
 		  String memberpwd_enc = bCryptPasswordEncoder.encode(mv.getMemberpwd());
 		 
@@ -108,13 +107,13 @@ public class MemberController { //객체생성
 			rttr.addAttribute("memberName", mv.getMembername());
 			
 		path="redirect:/";	
-		}else { 
+		}else { //아이디 복구화
 			/*
 			 * rttr.addAttribute("midx", ""); 
 			 * rttr.addAttribute("memberId", "");
 			 * rttr.addAttribute("memberName", "");
 			 */
-			rttr.addFlashAttribute("msg", "아이디/비밀번호를 확인해주세요."); //한번만 사용가능 : 한번사용하면 세션에서 지워버림
+			rttr.addFlashAttribute("msg", "아이디/비밀번호를 확인해주세요."); //한번만 사용가능(일회용) : 한번사용하면 세션에서 지워버림
 			//f5를 반복해서 5번 눌러도 1번밖에 뜨지않는다는거임
 			path="redirect:/member/memberLogin.aws";
 		}
@@ -150,7 +149,16 @@ public class MemberController { //객체생성
 		return obj;
 	}
 
-	
+	@RequestMapping(value="memberList.aws", method=RequestMethod.GET)
+	public String memberList(Model model) {
+		
+		//모델안에 alist를 담는다
+		ArrayList<MemberVo> alist = memberService.memberSelectAll();
+		
+		model.addAttribute("alist", alist);
+		
+		return "WEB-INF/member/memberList";
+	}
 	
 	
 	

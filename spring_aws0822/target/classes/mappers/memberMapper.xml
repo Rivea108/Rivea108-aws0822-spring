@@ -18,5 +18,8 @@ select count(*) as cnt from member where memberid=#{memberId}
 select * from member where memberid = #{memberId} <!-- and memberpwd = #{memberId} 비밀번호가 없는 값이 들어가서 안됐음 -->
 </select>
 
+<select id="memberSelectAll" resultType="mv">
+select * from member where delyn='N' ORDER BY midx desc
+</select>
 
 </mapper>
