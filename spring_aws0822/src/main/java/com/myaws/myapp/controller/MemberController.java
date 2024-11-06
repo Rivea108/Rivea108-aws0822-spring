@@ -2,6 +2,8 @@ package com.myaws.myapp.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +31,10 @@ public class MemberController { //객체생성
 	 //private Test tt;
 	
 	@Autowired
-	private MemberService memberService;
+	private MemberService memberService;//@Autowired는 자동 의존성 주입을 의미,
+	//MemberService는 회원 관련 비즈니스 로직을 처리하는 서비스 클래스.
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private BCryptPasswordEncoder bCryptPasswordEncoder; //비밀번호 암호화
 	
 	 
 	
@@ -60,7 +63,7 @@ public class MemberController { //객체생성
 	  
 	  
 	  int value = memberService.memberInsert(mv);
-	  logger.info("value : "+value); //value안먹음
+	  logger.info("value : "+value); 
 	  
 	  String path=""; if(value==1) { path = "redirect:/"; }else if(value==0) {
 	  path= "redirect:/member/memberJoin.aws"; }
@@ -82,7 +85,9 @@ public class MemberController { //객체생성
 	public String memberLoginAction(
 			@RequestParam("memberid") String memberId,
 			@RequestParam("memberpwd") String memberpwd,
-			RedirectAttributes rttr
+			RedirectAttributes rttr,
+			HttpSession session
+			
 			){
 		
 		//이곳의 @RequestParam("memberid") String memberId를 해석하자면 memberid를 가져와서 String형태의 memberId로 변경하겠다는 것 
@@ -106,23 +111,22 @@ public class MemberController { //객체생성
 			rttr.addAttribute("memberId", mv.getMemberid());
 			rttr.addAttribute("memberName", mv.getMembername());
 			
-		path="redirect:/";	
-		}else { //아이디 복구화
-			/*
-			 * rttr.addAttribute("midx", ""); 
-			 * rttr.addAttribute("memberId", "");
-			 * rttr.addAttribute("memberName", "");
-			 */
+			logger.info("saveUrl===>" + session.getAttribute("saveUrl"));
+			
+			if(session.getAttribute("saveUrl") != null) {
+				path = "redirect:"+session.getAttribute("saveUrl").toString();
+			}else {
+				path = "redirect:/";
+			}		
+	
+			path="redirect:/";		
+		
+		}else { //아이디 복구화	
 			rttr.addFlashAttribute("msg", "아이디/비밀번호를 확인해주세요."); //한번만 사용가능(일회용) : 한번사용하면 세션에서 지워버림
 			//f5를 반복해서 5번 눌러도 1번밖에 뜨지않는다는거임
 			path="redirect:/member/memberLogin.aws";
 		}
 	}else {
-		/*
-		 * rttr.addAttribute("midx", ""); 
-		 * rttr.addAttribute("memberId", "");
-		 * rttr.addAttribute("memberName", "");
-		 */
 		rttr.addFlashAttribute("msg", "해당하는 아이디가 없습니다."); //한번만 사용가능 
 		path="redirect:/member/memberLogin.aws";
 	}
@@ -130,8 +134,7 @@ public class MemberController { //객체생성
 		//회원정보를 session에 담는다
 		//로그인이 안되면 다시 로그인 페이지로 가고
 		//로그인이 되면 메인으로 가라 
-		
-		
+			
 		return path;
 	}
 	
@@ -160,7 +163,14 @@ public class MemberController { //객체생성
 		return "WEB-INF/member/memberList";
 	}
 	
-	
-	
-	
+	@RequestMapping(value="memberLogout.aws", method=RequestMethod.GET)//가상경로
+	public String memberLogout(HttpSession session) {
+		
+		session.removeAttribute("midx");
+		session.removeAttribute("memberName");
+		session.removeAttribute("memberId");
+		session.invalidate();
+		
+		return "redirect:/";
+	}
 }

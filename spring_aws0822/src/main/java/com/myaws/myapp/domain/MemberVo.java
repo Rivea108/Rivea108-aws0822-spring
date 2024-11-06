@@ -1,9 +1,9 @@
-package com.myaws.myapp.domain;
-
+package com.myaws.myapp.domain; 
+ 
 public class MemberVo {   
 	
 	private int midx;                    
-	private String memberid;         
+	private String memberid;        
 	private String memberpwd;      
 	private String membername;
 	private String membergender;

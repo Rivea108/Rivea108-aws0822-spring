@@ -9,13 +9,15 @@
 <body>
 
 <% if(session.getAttribute("midx") !=null){ 
-out.println(session.getAttribute("membertName")+"로그아웃");
+out.println(session.getAttribute("membertName")+"<a href='"+request.getContextPath()+"/member/memberLogout.aws'>로그아웃</a>"); //가상경로추가
 }%>
-
+<br>
 <a href="<%= request.getContextPath() %>/member/memberJoin.aws">회원가입 페이지</a>
 <br>
 <a href="<%= request.getContextPath() %>/member/memberLogin.aws">회원로그인 페이지</a>
 <br>
 <a href="<%= request.getContextPath() %>/member/memberList.aws">회원목록 페이지</a>
+<br>
+<a href="<%= request.getContextPath() %>/board/BoardList.aws">게시판 페이지</a>
 </body>	
 </html>	
