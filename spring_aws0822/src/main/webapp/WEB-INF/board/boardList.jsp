@@ -25,7 +25,7 @@
 <body>
 <header>
 	<h2 class="mainTitle">글목록</h2>
-	<form class="search" name="frm" action="<%=request.getContextPath() %>/board/BoardList.aws" method="get">
+	<form class="search" name="frm" action="<%=request.getContextPath() %>/board/boardList.aws" method="get">
 		<select name="searchType">
 			<option value="subject">제목</option>
 			<option value="writer">작성자</option>
@@ -84,18 +84,18 @@
 	<div class="page">
 		<ul>
 		<% if (pm.isPrev()==true) { %>
-		<li><a href="<%=request.getContextPath() %>/board/BoardList.aws?page=<%=pm.getStartPage()-1%>&<%=param%>">◀</li>
+		<li><a href="<%=request.getContextPath() %>/board/boardList.aws?page=<%=pm.getStartPage()-1%>&<%=param%>">◀</li>
 		<%} %>
 		
 		<% for(int i = pm.getStartPage();i<=pm.getEndPage();i++) { %>
 			<li   <%if (i==pm.getScri().getPage()) {%> class="on"<%}%>  > 
-			<a href="<%=request.getContextPath() %>/board/BoardList.aws?page=<%=i%>&<%=param%>">
+			<a href="<%=request.getContextPath() %>/board/boardList.aws?page=<%=i%>&<%=param%>">
 			<span style="font-size:20px;"> <%=i %></span></a>
 			</li>
 		<%} %>
 		
 		<%if(pm.isNext() == true && pm.getEndPage()>0){ %>
-		<li><a href="<%=request.getContextPath() %>/board/BoardList.aws?page=<%=pm.getEndPage()+1%>&<%=param%>">▶</a></li>
+		<li><a href="<%=request.getContextPath() %>/board/boardList.aws?page=<%=pm.getEndPage()+1%>&<%=param%>">▶</a></li>
 		<%} %>
 		</ul>
 	</div>

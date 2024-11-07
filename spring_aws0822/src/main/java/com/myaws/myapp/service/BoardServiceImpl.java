@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myaws.myapp.domain.BoardVo;
 import com.myaws.myapp.domain.SearchCriteria;
@@ -25,7 +26,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public ArrayList<BoardVo> boardSelectAll(SearchCriteria scri) {
 		
-		HashMap<String,Object> hm = new HashMap<String,Object>();		
+		HashMap<String,Object> hm = new HashMap<String,Object>();	//∆‰¿Ã¬°	
 		hm.put("startPageNum", (scri.getPage()-1)* scri.getPerPageNum());
 		hm.put("perPageNum", scri.getPerPageNum());
 		hm.put("searchType", scri.getSearchType());
@@ -41,6 +42,18 @@ public class BoardServiceImpl implements BoardService{
 				
 		int cnt = bm.boardTotalCount(scri);
 		return cnt;
+	}
+
+
+	@Override
+	@Transactional
+	public int boardInsert(BoardVo bv) {
+	
+		int value = bm.boardInsert(bv);
+		int maxBidx = bv.getBidx();
+		int value2 = bm.boardOriginbidxUpdate(maxBidx);
+		
+		return value=value2;
 	}
 
 }

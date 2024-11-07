@@ -18,6 +18,6 @@ out.println(session.getAttribute("membertName")+"<a href='"+request.getContextPa
 <br>
 <a href="<%= request.getContextPath() %>/member/memberList.aws">회원목록 페이지</a>
 <br>
-<a href="<%= request.getContextPath() %>/board/BoardList.aws">게시판 페이지</a>
+<a href="<%= request.getContextPath() %>/board/boardList.aws">게시판 페이지</a>
 </body>	
 </html>	

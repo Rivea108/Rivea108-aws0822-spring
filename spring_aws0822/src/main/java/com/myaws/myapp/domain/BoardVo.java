@@ -18,7 +18,14 @@ public class BoardVo {
 	private int midx;
 	private String modifyday;
 	private int password;
+	private String uploadedFilename;
 	
+	public String getUploadedFilename() {
+		return uploadedFilename;
+	}
+	public void setUploadedFilename(String uploadedFilename) {
+		this.uploadedFilename = uploadedFilename;
+	}
 	public int getBidx() {
 		return bidx;
 	}
