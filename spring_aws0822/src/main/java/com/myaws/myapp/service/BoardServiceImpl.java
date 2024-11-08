@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public ArrayList<BoardVo> boardSelectAll(SearchCriteria scri) {
 		
-		HashMap<String,Object> hm = new HashMap<String,Object>();	//∆‰¿Ã¬°	
+		HashMap<String,Object> hm = new HashMap<String,Object>();		
 		hm.put("startPageNum", (scri.getPage()-1)* scri.getPerPageNum());
 		hm.put("perPageNum", scri.getPerPageNum());
 		hm.put("searchType", scri.getSearchType());
@@ -35,16 +35,13 @@ public class BoardServiceImpl implements BoardService{
 		ArrayList<BoardVo> blist =  bm.boardSelectAll(hm);		
 		return blist;
 	}
-
-
 	@Override
 	public int boardTotalCount(SearchCriteria scri) {	
 				
 		int cnt = bm.boardTotalCount(scri);
 		return cnt;
 	}
-
-
+	
 	@Override
 	@Transactional
 	public int boardInsert(BoardVo bv) {
@@ -53,7 +50,14 @@ public class BoardServiceImpl implements BoardService{
 		int maxBidx = bv.getBidx();
 		int value2 = bm.boardOriginbidxUpdate(maxBidx);
 		
-		return value=value2;
+		return value+value2;
 	}
 
+
+	@Override
+	public BoardVo boardSelectOne(int bidx) {
+		BoardVo bv = bm.boardSelectOne(bidx);		
+		return bv;
+	}
 }
+

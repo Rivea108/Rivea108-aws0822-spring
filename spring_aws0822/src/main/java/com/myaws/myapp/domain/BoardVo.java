@@ -19,7 +19,13 @@ public class BoardVo {
 	private String modifyday;
 	private int password;
 	private String uploadedFilename;
-	
+
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
 	public String getUploadedFilename() {
 		return uploadedFilename;
 	}
@@ -80,12 +86,8 @@ public class BoardVo {
 	public void setViewcnt(int viewcnt) {
 		this.viewcnt = viewcnt;
 	}
-	public String getFilename() {
-		return filename;
-	}
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+
+	
 	public String getWriteday() {
 		return writeday;
 	}

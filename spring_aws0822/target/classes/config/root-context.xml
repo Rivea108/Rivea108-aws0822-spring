@@ -22,14 +22,16 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
 	<!-- <bean id="tt" class="com.myaws.myapp.service.Test"> </bean> -->
+	
+	<context:property-placeholder location="classpath:properties/db.properties"/>
 		
 	<bean id="db" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-	<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-	<property name="url" value="jdbc:mysql://127.0.0.1:3306/aws0822?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"/>
+	<property name="driverClassName" value="${db.driver}"/>
+	<property name="url" value="${db.url}"/>
 	<!-- 22줄 오타 문제 -->
 	<!-- useSSL=false(보안), &amp; &(AND)사용할수있게 해주는 문구(amp;) -->
-	<property name="username" value="root"></property>
-	<property name="password" value="1234"></property>
+	<property name="username" value="${db.username}"></property>
+	<property name="password" value="${db.password}"></property>
 	</bean>
 		
 		
@@ -39,7 +41,16 @@
 	<property name="configLocation" value="classpath:config/mybatis_config.xml"/>
 	</bean>	
 	
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/><!-- 우회 : proxy -->
+	<!-- 트랜잭션 11.07 -->
+	<bean id="transactionManager"
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<constructor-arg ref="db"/>
+	</bean>
+	
+	<tx:annotation-driven/>
+	
+	<!-- 트랜잭션 -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>우회 : proxy -->
 	
 	
 		

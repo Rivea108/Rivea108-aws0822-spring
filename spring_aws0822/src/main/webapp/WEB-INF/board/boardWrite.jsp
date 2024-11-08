@@ -18,7 +18,7 @@ if(msg !="") {
 <head>
 <meta charset="UTF-8">
 <title>글쓰기</title>
-<link href=<%=request.getContextPath() %>"/resources/css/style2.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/resources/css/style2.css" rel="stylesheet">
 <script> 
 
 function check() {
@@ -82,7 +82,7 @@ function check() {
 		</tr>
 		<tr>
 			<th>첨부파일</th>
-			<td><input type="file" name="filename"></td>
+			<td><input type="file" name="attachfile"></td>
 		</tr>
 	</table>
 	

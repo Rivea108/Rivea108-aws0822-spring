@@ -34,7 +34,7 @@ public class UploadFileUtiles {
 //        String realpath = request.getSession().getServletContext().getRealPath(uploadPath);
 //		System.out.println("realpath:"+realpath);
         
-		String savedPath = calcPath(uploadPath);
+		String savedPath = calcPath(uploadPath);//캘크 날짜별로 폴더를 만들어줌
 		
 		File target = new File(uploadPath+savedPath,savedName);
 //  	등록한 파일 상대경로
