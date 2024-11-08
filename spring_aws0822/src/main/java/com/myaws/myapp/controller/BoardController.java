@@ -8,8 +8,10 @@ import java.util.ArrayList;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -71,6 +74,7 @@ public class BoardController {
 	@RequestMapping(value="boardContents.aws")
 	public String boardContents(@RequestParam("bidx") int bidx, Model model) {	
 		
+		boardService.boardViewCntUpdate(bidx);
 		BoardVo bv = boardService.boardSelectOne(bidx);
 		
 		model.addAttribute("bv", bv);
@@ -177,6 +181,50 @@ public class BoardController {
 
 	    return entity;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="boardRecom.aws",method=RequestMethod.GET)
+	// http:@RequestMapping(value="boardRecom.aws이거에서 method=RequestMethod.GET 추가로 적는 이유는 
+	// http://localhost/board/boardList.aws(리스트)에서 게시글을 클릭했을때 http://localhost/board/boardContents.aws?bidx=1063
+	// ?뒤에 있는 부분은 겟 메소드라고 한다 그 겟 메소드를 받기 위해 method=RequestMethod.GET을 적는 것
+	public JSONObject boardRecom(@RequestParam("bidx")int bidx){
+		
+		
+		int value = boardService.boardRecomUpdate(bidx);
+		
+		JSONObject js = new JSONObject();
+		js.put("recom", value);
+		
+		
+		return js;
+	}
+	
+	@RequestMapping(value="boardDelete.aws")
+	public String boardDelete(@RequestParam("bidx")int bidx, Model model) {
+		
+		
+		model.addAttribute("bidx", bidx);
+		String path="WEB-INF/board/boardDelete";
+		return path;
+	}
+	
+	
+	
+	@RequestMapping(value="boardDeleteAction.aws",method=RequestMethod.POST)
+	public String boardDelete(
+			@RequestParam("bidx")int bidx,
+			@RequestParam("password")String password,
+			HttpSession session){
+		
+		int midx = Integer.parseInt(session.getAttribute("midx").toString());
+		boardService.boardDelete(bidx,midx,password);
+		
+		String path="redirect:/board/boardList.aws";
+		
+		
+		return path;
+	}
+	
 	
 	
 	

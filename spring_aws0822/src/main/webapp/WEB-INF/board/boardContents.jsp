@@ -117,6 +117,8 @@ $.boardCommentList = function(){
 }
 
 $(document).ready(function(){	
+	
+	$("#dUrl").html(getOriginalFileName("<%=bv.getFilename()%>"));
 
 	$("#dUrl").click(function(){
 		$("a#dUrl").attr("href",download());
@@ -124,10 +126,10 @@ $(document).ready(function(){
 	});
 	
 	//alert("dddddz");
-	$.boardCommentList();	
+	//$.boardCommentList();	
 	
 	$("#btn").click(function(){
-	//	alert("추천버튼 클릭");		
+		//alert("추천버튼 클릭");		
 	
 		$.ajax({
 			type :  "get",    //전송방식
@@ -140,7 +142,7 @@ $(document).ready(function(){
 				$("#btn").val(str);			
 			},
 			error : function(){  //결과가 실패했을때 받는 영역						
-				//alert("전송실패");
+				alert("전송실패");
 			}			
 		});			
 	});	

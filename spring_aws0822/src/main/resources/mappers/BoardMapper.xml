@@ -40,7 +40,23 @@
    
    <select id="boardSelectOne" parameterType="int" resultType="bv">
 	select * from board where delyn='N' and bidx=#{bidx}
-</select>
-   
+   </select>
+
+	<update id="boardViewCntUpdate" parameterType="int">
+	update board SET viewcnt = viewcnt+1 where bidx=#{bidx}
+	</update>
+	
+	<update id="boardRecomUpdate" parameterType="bv">
+	<selectKey keyProperty="recom" resultType="int" order="AFTER">
+   select recom from board where bidx=#{bidx}
+   </selectKey>
+	update board SET recom = recom+1 where bidx=#{bidx}
+	</update>
+	
+	<update id="boardDelete" parameterType="HashMap">
+	update board SET delyn='Y', modifyday=now() where bidx=#{bidx} and midx=#{midx} and password=#{password}
+	</update>
+
+
 
 </mapper>

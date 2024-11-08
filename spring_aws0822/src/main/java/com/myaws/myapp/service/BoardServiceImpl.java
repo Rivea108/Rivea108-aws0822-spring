@@ -59,5 +59,37 @@ public class BoardServiceImpl implements BoardService{
 		BoardVo bv = bm.boardSelectOne(bidx);		
 		return bv;
 	}
+
+
+	@Override
+	public int boardViewCntUpdate(int bidx) {
+		int cnt = bm.boardViewCntUpdate(bidx);
+		return cnt;
+	}
+
+
+	@Override
+	public int boardRecomUpdate(int bidx) {
+		BoardVo bv = new BoardVo();
+		bv.setBidx(bidx);
+		int cnt = bm.boardRecomUpdate(bv);
+		int recom = bv.getRecom();
+		return recom;
+	}
+
+
+	@Override
+	public int boardDelete(int bidx, int midx, String password) {//매개변수가 3개이기에 해쉬맵을 사용하기로한다
+		
+		//boardMapper.java에 해쉬맵 지정(24줄)
+		HashMap<String,Object> hm = new HashMap<String,Object>(); //해쉬맵
+		hm.put("bidx", bidx);
+		hm.put("midx", midx);
+		hm.put("password", password);
+		
+		int cnt = bm.boardDelete(hm);
+		
+		return cnt;
+	}
 }
 
