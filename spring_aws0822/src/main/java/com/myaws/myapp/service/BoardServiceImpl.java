@@ -91,5 +91,28 @@ public class BoardServiceImpl implements BoardService{
 		
 		return cnt;
 	}
+
+
+	@Override
+	public int boardUpdate(BoardVo bv) {
+		
+		int value = bm.boardUpdate(bv);
+		return value;
+		
+	}
+
+	@Transactional
+	@Override
+	public int boardReply(BoardVo bv) {
+		//업데이트하고 입력하기 만들기(메소드 2개)
+		int value = bm.boardReplyUpdate(bv);
+		int value2 = bm.boardReplyInsert(bv);
+		int maxBidx = bv.getBidx();// 안썼음
+		
+		return maxBidx;
+	}
+
+
+	
 }
 

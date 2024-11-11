@@ -56,7 +56,23 @@
 	<update id="boardDelete" parameterType="HashMap">
 	update board SET delyn='Y', modifyday=now() where bidx=#{bidx} and midx=#{midx} and password=#{password}
 	</update>
-
-
-
+	
+	<update id="boardUpdate" parameterType="bv">
+	update board set subject=#{subject} ,contents=#{contents} ,writer=#{writer} ,modifyday=now(), filename=#{uploadedFilename} where bidx=#{bidx} 
+	and password=#{password} and midx=#{midx}<!-- 이클립스 자바의 boardDao의 boardUpdate 쿼리를 가져와 추가함(filename, midx)  -->
+	</update>
+	
+	<update id="boardReplyUpdate" parameterType="bv">
+	update board set depth= depth+1 where originbidx =#{originbidx}  and depth > #{depth}
+	</update>
+	
+	<update id="boardReplyInsert" parameterType="bv">
+	<selectKey keyProperty="bidx" resultType="int" order="AFTER">
+   select max(bidx) as bidx from board
+   </selectKey>
+   
+	insert into board (originbidx, depth, level_, subject, contents, writer, midx, filename, password, ip)
+				  values(#{originbidx}, #{depth}+1, #{level_}+1, #{subject}, #{contents}, #{writer}, #{midx}, #{uploadedFilename}, #{password}, #{ip})
+				  <!-- 윗글 "와 +를 없앴어야함 -->															<!-- uploadFilename가아닌 ed를 붙였어야함-->
+	</update>
 </mapper>

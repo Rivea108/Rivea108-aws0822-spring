@@ -231,6 +231,28 @@
 
 		
 		<!-- 11.07 끝 -->
+		
+		<!-- AOP 11.11 -->
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+		
+		<!-- AspectJ -->		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>	
+		
+		<dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-aop</artifactId>
+	        <version>${org.springframework-version}</version>
+ 		</dependency>
+ 		<!-- AOP 11.11 -->
 		        
 		        <!-- Test -->
 		<dependency>

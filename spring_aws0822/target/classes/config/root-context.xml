@@ -49,6 +49,8 @@
 	
 	<tx:annotation-driven/>
 	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
 	<!-- 트랜잭션 -->
 	<!-- <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>우회 : proxy -->
 	

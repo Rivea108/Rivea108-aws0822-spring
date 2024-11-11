@@ -71,18 +71,6 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping(value="boardContents.aws")
-	public String boardContents(@RequestParam("bidx") int bidx, Model model) {	
-		
-		boardService.boardViewCntUpdate(bidx);
-		BoardVo bv = boardService.boardSelectOne(bidx);
-		
-		model.addAttribute("bv", bv);
-		
-		String path="WEB-INF/board/boardContents";		
-		return path;
-	}
-	
 	@RequestMapping(value="boardWriteAction.aws")
 	public String boardWriteAction(
 			BoardVo bv,
@@ -126,6 +114,19 @@ public class BoardController {
 		}
 		return path;
 	}
+	
+	@RequestMapping(value="boardContents.aws")
+	public String boardContents(@RequestParam("bidx") int bidx, Model model) {	
+		
+		boardService.boardViewCntUpdate(bidx);
+		BoardVo bv = boardService.boardSelectOne(bidx);
+		
+		model.addAttribute("bv", bv);
+		
+		String path="WEB-INF/board/boardContents";		
+		return path;
+	}
+	
 	
 	//모르겠으니 물어보기
 	@RequestMapping(value = "/displayFile.aws", method = RequestMethod.GET)
@@ -217,16 +218,125 @@ public class BoardController {
 			HttpSession session){
 		
 		int midx = Integer.parseInt(session.getAttribute("midx").toString());
-		boardService.boardDelete(bidx,midx,password);
+		int value = boardService.boardDelete(bidx,midx,password);
 		
 		String path="redirect:/board/boardList.aws";
+		if (value == 0) {
+			path="redirect:/board/boardDelete.aws?bidx="+bidx;
+		}
+		
+		return path;
+	}
+	
+	@RequestMapping(value="boardModify.aws")
+	public String boardModify(@RequestParam("bidx")int bidx, Model model) {
+		
+		BoardVo bv = boardService.boardSelectOne(bidx);
+		model.addAttribute("bv", bv);//왜 이걸 bv로 변경했을까?
+		
+		String path="WEB-INF/board/boardModify";
+		return path;
+	}
+	
+	@RequestMapping(value="boardModifyAction.aws")	
+	public String boardModifyAction(
+			 // @RequestParam("bidx")int bidx, 
+			 // @RequestParam("subject") String subject, //하나씩 넘겨도됨 하지만 한번에 하는게 제일 좋다
+			 // Model model) {
+			BoardVo bv,
+			@RequestParam("attachfile") MultipartFile attachfile,
+			HttpServletRequest request,
+			
+			//추가본
+			RedirectAttributes rttr) throws IOException, Exception { 
+				
+	int value=0;
+	
+	
+	MultipartFile file = attachfile;
+	String uploadedFileName="";
+	if(! file.getOriginalFilename().equals("")) {
+		uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+	}
+	
+	String midx = request.getSession().getAttribute("midx").toString();
+	int midx_int = Integer.parseInt(midx);
+	String ip = getUserIp(request);
+	
+	bv.setUploadedFilename(uploadedFileName); //FileName 컬럼값으로 넣을려고
+	bv.setMidx(midx_int);
+	bv.setIp(ip);
+	//추가본
+
+	
+	// 파일 업로드를 하고 update를 하기 위한 service를 만든다.
+	value = boardService.boardUpdate(bv);	
+	
+	
+	String path="";	
+		if(value==0) {
+			rttr.addFlashAttribute("msg", "답변이 등록되지 않았습니다");
+			path="redirect:/board/boardModify.aws?bidx="+bv.getBidx();
+		}else {
+			path="redirect:/board/boardContents.aws?bidx="+bv.getBidx();	
+			}
 		
 		
 		return path;
 	}
 	
+	@RequestMapping(value="boardReply.aws")
+	public String boardReply(@RequestParam("bidx")int bidx, Model model) {
+		
+		BoardVo bv = boardService.boardSelectOne(bidx);
+		model.addAttribute("bv", bv);
+		
+		
+		String path="WEB-INF/board/boardReply";
+		return path;
+	}
 	
 	
+	@RequestMapping(value="boardReplyAction.aws")	
+	public String boardReplyAction(
+			BoardVo bv,
+			@RequestParam("attachfile") MultipartFile attachfile,
+			HttpServletRequest request,
+			
+			//추가본
+			RedirectAttributes rttr) throws IOException, Exception { 
+				
+	int value=0;
+	
+	MultipartFile file = attachfile;
+	String uploadedFileName="";
+	if(! file.getOriginalFilename().equals("")) {
+		uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+	}
+	
+	String midx = request.getSession().getAttribute("midx").toString();
+	int midx_int = Integer.parseInt(midx);
+	String ip = getUserIp(request);
+	
+	bv.setUploadedFilename(uploadedFileName); //FileName 컬럼값으로 넣을려고
+	bv.setMidx(midx_int);
+	bv.setIp(ip);
+
+	// 파일 업로드를 하고 update를 하기 위한 service를 만든다.
+	int maxBidx = 0; 
+	maxBidx = boardService.boardReply(bv);
+	
+	String path="";	
+		if(maxBidx != 0) {
+			path="redirect:/board/boardContents.aws?bidx="+maxBidx;
+		}else {
+			rttr.addAttribute("msg", "답변이 등록되지 않았습니다.");
+			path="redirect:/board/boardReply.aws?bidx="+bv.getBidx();	
+			}
+		
+		
+		return path;
+	}
 	
 	
 public String getUserIp(HttpServletRequest request) throws Exception {

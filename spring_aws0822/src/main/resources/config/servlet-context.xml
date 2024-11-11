@@ -47,10 +47,18 @@
       <interceptor>
          <mapping path="/member/memberList.aws" />
          <mapping path="/board/boardWrite.aws" />
+         <!-- 11.08 -->
          <mapping path="/board/boardDeleteAction.aws" />
          <mapping path="/board/boardModifyAction.aws" />
          <mapping path="/board/boardReplyAction.aws" />
          <mapping path="/board/boardWriteAction.aws" />
+         <!-- 11.11 -->
+         <mapping path="/board/boardWrite.aws" />
+          <mapping path="/board/boardDelete.aws" />
+         <mapping path="/board/boardModify.aws" />
+         <mapping path="/board/boardReply.aws" />
+         <!-- 11.11 -->
+         <!-- 11.08 -->
          <beans:ref bean="authInterceptor" /> <!-- 주소 잘보기 -->
       </interceptor> 
    </interceptors> 
