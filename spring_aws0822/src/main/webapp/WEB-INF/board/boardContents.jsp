@@ -126,7 +126,7 @@ $(document).ready(function(){
 	});
 	
 	//alert("dddddz");
-	$.boardCommentList();	
+	$.boardCommentList();//주석처리 되어있던걸 풀었음	
 	
 	$("#btn").click(function(){
 		//alert("추천버튼 클릭");		
