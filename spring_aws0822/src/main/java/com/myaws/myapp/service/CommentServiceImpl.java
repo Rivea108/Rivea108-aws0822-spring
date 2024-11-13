@@ -22,28 +22,28 @@ public class CommentServiceImpl implements CommentService{
 	@Autowired
 	public CommentServiceImpl(SqlSession sqlSession) {
 		this.cm = sqlSession.getMapper(CommentMapper.class);
-	}
-	
-	
+	}	
 	@Override
-	public ArrayList<CommentVo> commentSelectAll(int bidx) {
+	public ArrayList<CommentVo> commentSelectAll(int bidx,int block) {
 				
-		ArrayList<CommentVo> clist =  cm.commentSelectAll(bidx);		
+		block = block*15;
+		ArrayList<CommentVo> clist =  cm.commentSelectAll(bidx,block);		
 		return clist;
 	}
-
-
 	@Override
 	public int commentInsert(CommentVo cv) {
 		int value = cm.commentInsert(cv);
 		return value;
 	}
-
-
 	@Override
 	public int commentDelete(CommentVo cv) {
 		int value = cm.commentDelete(cv);
 		return value;
+	}
+	@Override
+	public int commentTotalCnt(int bidx) {
+		 int cnt = cm.commentTotalCnt(bidx);
+		return cnt;
 	}
 	
 }

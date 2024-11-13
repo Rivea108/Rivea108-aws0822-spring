@@ -47,7 +47,7 @@ return downLink;
 
 
 
-function commentDel(cidx){	
+function commentDel(cidx){
 	let ans= confirm("삭제하시겠습니까?");	
 	if (ans== true){
 		
@@ -71,16 +71,32 @@ function commentDel(cidx){
 
 //jquery로 만드는 함수  ready밖에 생성
 $.boardCommentList = function(){
-	//alert("ddddddd");
-	$.ajax({
+	
+	let block = $("#block").val(); //아아디 앞에는 #을 붙여야하고 클래스 앞에는 .을 붙인다
+	
+	
+ 	$.ajax({
 		type :  "get",    //전송방식
-		url : "<%=request.getContextPath()%>/comment/<%=bv.getBidx()%>/commentList.aws",
+		url : "<%=request.getContextPath()%>/comment/<%=bv.getBidx()%>/"+block+"/commentList.aws",
+		
 		dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 		success : function(result){   //결과가 넘어와서 성공했을 받는 영역
 			//alert("전송성공 테스트");			
 		
-		var strTr = "";				
+		if(result.moreView =="N") {
+			$("#morebtn").css("display","none"); //더보기 버튼을 감춘다
+		}else{
+			$("#morebtn").css("display","block"); //더보기 버튼을 보여준다 
+		}
+		
+		//alert("전송성공 테스트1");		
+		
+		$("#block").val(result.nextBlock);
+		
+		var strTr = "";
 		$(result.clist).each(function(){	
+				
+			//alert("전송성공 테스트2"); 반복실행되는건 맞음 
 			
 			var btnn="";			
 			 //현재로그인 사람과 댓글쓴 사람의 번호가 같을때만 나타내준다
@@ -89,6 +105,9 @@ $.boardCommentList = function(){
 					btnn= "<button type='button' onclick='commentDel("+this.cidx+");'>삭제</button>";
 				}			
 			}
+			 
+			//alert("전송성공 테스트3"); 반복실행되는건 맞음 
+			 
 			strTr = strTr + "<tr>"
 			+"<td>"+this.cidx+"</td>"
 			+"<td>"+this.cwriter+"</td>"
@@ -108,11 +127,14 @@ $.boardCommentList = function(){
 			+"</tr>"+strTr+"</table>";		
 		
 		$("#commentListView").html(str);		
-						
+				
+		
+		
 		},
 		error : function(){  //결과가 실패했을때 받는 영역						
 			alert("전송실패");
-		}			
+		}		
+		
 	});	
 }
 
@@ -129,7 +151,7 @@ $(document).ready(function(){
 	$.boardCommentList();//주석처리 되어있던걸 풀었음	
 	
 	$("#btn").click(function(){
-		//alert("추천버튼 클릭");		
+		alert("추천버튼 클릭");		
 	
 		$.ajax({
 			type :  "get",    //전송방식
@@ -192,7 +214,12 @@ $(document).ready(function(){
 				alert("전송실패");
 			}			
 		});			
-	});		
+	});	
+ 	
+ 	$("#more").click(function(){
+ 		$.boardCommentList();		
+ 		
+ 	})
 });
 </script>
 </head>
@@ -235,6 +262,12 @@ $(document).ready(function(){
 	</form>
 	
 	<div id="commentListView"></div>
+	
+	<!-- 더보기 기능 블럭 추가 -->
+	<input type="hidden" id="block" value="1">
+	<div id="morebtn" style="text-align : center; line-height:50px">
+		<button type="button" id="more">더보기</button>
+	</div>
 	
 </article>
 </body>

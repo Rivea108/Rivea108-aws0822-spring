@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,18 +27,43 @@ public class CommentController {
 	@Autowired(required=false)
 	private UserIp userIp;
 	
-	@RequestMapping(value="/{bidx}/commentList.aws")
-	public JSONObject commentList(	@PathVariable("bidx") int bidx	){		
+	@RequestMapping(value="/{bidx}/{block}/commentList.aws")
+	public JSONObject commentList(	
+			@PathVariable("bidx") int bidx,
+			@PathVariable("block") int block){	
 		
-		JSONObject js = new JSONObject();	
-		ArrayList<CommentVo> clist =  commentService.commentSelectAll(bidx);
+		
+		String moreView="";	
+		int nextBlock=0;
+		int cnt = commentService.commentTotalCnt(bidx);
+		
+		if (cnt >block*15) {
+			moreView = "Y";
+			nextBlock = block+1;
+		}else {
+			moreView = "N";
+			nextBlock = block;
+		}		
+		
+		
+		ArrayList<CommentVo> clist =  commentService.commentSelectAll(bidx, block);
+		
+		JSONObject js = new JSONObject();
 		js.put("clist", clist);	
+		js.put("moreView", moreView);
+		js.put("nextBlock", nextBlock);
+		
+		
 		
 		return js;
+		
+		
+		
 	}
 	
-	@RequestMapping(value="/commentWriteAction.aws")
+	@RequestMapping(value="/commentWriteAction.aws",method=RequestMethod.POST)
 	public JSONObject commentWriteAction(CommentVo cv,HttpServletRequest request) throws Exception{		
+		
 		
 		cv.setCip(userIp.getUserIp(request));
 		
