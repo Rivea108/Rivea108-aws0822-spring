@@ -53,7 +53,7 @@ function commentDel(cidx){
 		
 		$.ajax({
 			type :  "get",    //전송방식
-			url : "<%=request.getContextPath()%>/comment/commentDeleteAction.aws?cidx="+cidx,
+			url : "<%=request.getContextPath()%>/comment/"+cidx+"/commentDeleteAction.aws",
 			dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
 			//	alert("전송성공 테스트");	
@@ -77,7 +77,7 @@ $.boardCommentList = function(){
 		url : "<%=request.getContextPath()%>/comment/<%=bv.getBidx()%>/commentList.aws",
 		dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 		success : function(result){   //결과가 넘어와서 성공했을 받는 영역
-			alert("전송성공 테스트");			
+			//alert("전송성공 테스트");			
 		
 		var strTr = "";				
 		$(result.clist).each(function(){	
@@ -149,10 +149,10 @@ $(document).ready(function(){
 	
  	$("#cmtBtn").click(function(){
 		//alert("ddd");
-		let loginCheck = "<%=midx%>"; 
+		let midx = "<%=midx%>"; 
 		//152줄 <(태그를 만들면 안되는걸 만들어 버렸음)
-		//alert(loginCheck);
-		if (loginCheck == "" || loginCheck == "null" || loginCheck == null || loginCheck == 0){
+		
+		if (midx == "" || midx == "null" || midx == null || midx == 0){
 			alert("로그인을 해주세요");
 			return;
 		}  				
@@ -169,6 +169,7 @@ $(document).ready(function(){
 			return;
 		}
 		
+		
 		$.ajax({
 			type :  "post",    //전송방식
 			url : "<%=request.getContextPath()%>/comment/commentWriteAction.aws",
@@ -179,7 +180,7 @@ $(document).ready(function(){
 					   },
 			dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
-				//alert("전송성공 테스트");			
+				alert("전송성공 테스트");			
 				//var str ="("+result.value+")";			
 				//alert(str);		
 				if(result.value ==1){
@@ -229,7 +230,7 @@ $(document).ready(function(){
 		<p class="commentWriter" style="width:100px;">
 		<input type="text" id="cwriter" name="cwriter" value="<%=memberName%>" readonly="readonly" style="width:100px;border:0px;">
 		</p>	
-		<input type="text" id="ccontents"  name="ccontents">
+		<input type="text" id="ccontents" name="ccontents">
 		<button type="button" id="cmtBtn" class="replyBtn">댓글쓰기</button>
 	</form>
 	

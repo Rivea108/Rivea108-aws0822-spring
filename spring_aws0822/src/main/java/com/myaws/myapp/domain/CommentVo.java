@@ -30,6 +30,8 @@ public class CommentVo {
 	public void setCcontents(String ccontents) {
 		this.ccontents = ccontents;
 	}
+	
+	
 	public String getCwriter() {
 		return cwriter;
 	}
