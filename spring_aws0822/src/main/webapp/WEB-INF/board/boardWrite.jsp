@@ -1,24 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+    <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %> 
     <%
-String msg="";
-if(request.getAttribute("msg") != null){
+/*  String msg="";
+if(request.getAttribute("msg") != null){빈값이 아닐 때
 msg = (String)request.getAttribute("msg");
+out.println("<script>alert('"+msg+"');</script>"); 빈값일때 
 }
+*/
 
-if(msg !="") {
-	out.println("<script>alert('"+msg+"');</script>");
-}
+//String msg="";
+//if(request.getAttribute("msg") != null){
+//msg = (String)request.getAttribute("msg");
+//}
+//if(msg !="") {
+//	out.println("<script>alert('"+msg+"');</script>");
+//}
+
 %>
-    
+
+<c:if test="${!empty msg}"> <!-- 빈값이 아닐 때 --> <!-- NULL도 가능하지만 엠프티쓰자 -->
+<script>alert('"+msg+"');</script> <!-- 빈값일때 -->	
+</c:if>
+
+
     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>글쓰기</title>
-<link href="<%=request.getContextPath() %>/resources/css/style2.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/style2.css" rel="stylesheet">
 <script> 
 
 function check() {
@@ -46,7 +58,7 @@ function check() {
 	  let ans = confirm("저장하시겠습니까?"); //함수의 값은 참과 거짓 true or false로 나눈다
 	  
 	  if (ans == true) {
-		  fm.action="<%=request.getContextPath()%>/board/boardWriteAction.aws";
+		  fm.action="${pageContext.request.contextPath}/board/boardWriteAction.aws";
 		  fm.method="post";
 		  fm.enctype="multipart/form-data"; //멀티 파트로 넘긴다(보드컨트롤러로)53줄
 		  fm.submit();

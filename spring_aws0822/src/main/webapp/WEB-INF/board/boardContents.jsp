@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.myaws.myapp.domain.BoardVo" %>   
+<%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %> 
  <% 
- BoardVo bv = (BoardVo)request.getAttribute("bv");   //강제형변환  양쪽형을 맞춰준다 
+/*  BoardVo bv = (BoardVo)request.getAttribute("bv");   //강제형변환  양쪽형을 맞춰준다 
  
  String memberName = "";
  if (session.getAttribute("memberName") !=null){
@@ -10,7 +11,7 @@
  int midx=0;
  if (session.getAttribute("midx") !=null){ //강제형변환이 안먹음
 	 midx = Integer.parseInt(session.getAttribute("midx").toString());
- } 					
+ } 		 */			
  %>      
 <!DOCTYPE html>
 <html>
@@ -37,10 +38,9 @@ function getImageLink(fileName){//자바스크립트는 형태를 지정하지�
 }
 function download(){
 	//주소 사이에s-는 빼고
-	var downloadImage = getImageLink("<%=bv.getFilename()%>");
-	var	downLink = "<%=request.getContextPath() %>/board/displayFile.aws?fileName="+downloadImage+"&down=1";
-
-return downLink;
+	var downloadImage = getImageLink("${bv.filename}");
+	var	downLink = "${pageContext.request.contextPath}/board/displayFile.aws?fileName="+downloadImage+"&down=1";	
+	return downLink;
 }
 
 
@@ -53,7 +53,7 @@ function commentDel(cidx){
 		
 		$.ajax({
 			type :  "get",    //전송방식
-			url : "<%=request.getContextPath()%>/comment/"+cidx+"/commentDeleteAction.aws",
+			url : "${pageContext.request.contextPath}/comment/"+cidx+"/commentDeleteAction.aws",
 			dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
 			//	alert("전송성공 테스트");	
@@ -77,7 +77,7 @@ $.boardCommentList = function(){
 	
  	$.ajax({
 		type :  "get",    //전송방식
-		url : "<%=request.getContextPath()%>/comment/<%=bv.getBidx()%>/"+block+"/commentList.aws",
+		url : "${pageContext.request.contextPath}/comment/${bv.bidx}/"+block+"/commentList.aws",
 		
 		dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 		success : function(result){   //결과가 넘어와서 성공했을 받는 영역
@@ -100,7 +100,7 @@ $.boardCommentList = function(){
 			
 			var btnn="";			
 			 //현재로그인 사람과 댓글쓴 사람의 번호가 같을때만 나타내준다
-			if (this.midx == "<%=midx%>") {
+			if (this.midx == "${midx}") {
 				if (this.delyn=="N"){
 					btnn= "<button type='button' onclick='commentDel("+this.cidx+");'>삭제</button>";
 				}			
@@ -140,7 +140,7 @@ $.boardCommentList = function(){
 
 $(document).ready(function(){	
 	
-	$("#dUrl").html(getOriginalFileName("<%=bv.getFilename()%>"));
+	$("#dUrl").html(getOriginalFileName("${bv.filename}")); //filename을 F로 적음
 
 	$("#dUrl").click(function(){
 		$("a#dUrl").attr("href",download());
@@ -155,7 +155,7 @@ $(document).ready(function(){
 	
 		$.ajax({
 			type :  "get",    //전송방식
-			url : "<%=request.getContextPath()%>/board/boardRecom.aws?bidx=<%=bv.getBidx()%>",
+			url : "${pageContext.request.contextPath}/board/boardRecom.aws?bidx=${bv.bidx}",
 			dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
 			//alert("전송성공 테스트");	
@@ -171,7 +171,7 @@ $(document).ready(function(){
 	
  	$("#cmtBtn").click(function(){
 		//alert("ddd");
-		let midx = "<%=midx%>"; 
+		let midx = "${midx}"; 
 		//152줄 <(태그를 만들면 안되는걸 만들어 버렸음)
 		
 		if (midx == "" || midx == "null" || midx == null || midx == 0){
@@ -194,11 +194,11 @@ $(document).ready(function(){
 		
 		$.ajax({
 			type :  "post",    //전송방식
-			url : "<%=request.getContextPath()%>/comment/commentWriteAction.aws",
+			url : "${pageContext.request.contextPath}/comment/commentWriteAction.aws",
 			data : {"cwriter" : cwriter, 
 					   "ccontents" : ccontents, 
-					   "bidx" : "<%=bv.getBidx()%>",
-					   "midx" : "<%=midx%>"
+					   "bidx" : "${bv.bidx}",
+					   "midx" : "${midx}"
 					   },
 			dataType : "json",       // json타입은 문서에서  {"키값" : "value값","키값2":"value값2"}
 			success : function(result){   //결과가 넘어와서 성공했을 받는 영역
@@ -229,33 +229,33 @@ $(document).ready(function(){
 </header>
 
 <article class="detailContents">
-	<h2 class="contentTitle"><%=bv.getSubject() %> (조회수:<%=bv.getViewcnt() %>)
-	<input type="button" id="btn" value="추천(<%=bv.getRecom() %>)">
+	<h2 class="contentTitle">${bv.subject} (조회수:${bv.viewcnt})
+	<input type="button" id="btn" value="추천(${bv.recom})">
 	</h2>	
-	<p class="write"><%=bv.getWriter() %> (<%=bv.getWriteday() %>)</p>
+	<p class="write">${bv.writer} (${bv.writeday})</p>
 	<hr>
 	<div class="content">
-		<%=bv.getContents() %>		
+		${bv.contents}		
 	</div>
-	<% if (bv.getFilename() == null || bv.getFilename().equals("") ) {}else{ %>	
-	<img src="<%=request.getContextPath()%>/board/displayFile.aws?fileName=<%=bv.getFilename()%>"><!-- 주소를 바깥에 둬서 주소를 변경해야함 -->	<!-- 수정 -->
+	<c:if test="${!empty bv.filename}">
+	<img src="${pageContext.request.contextPath}/board/displayFile.aws?fileName=${bv.filename}"><!-- 주소를 바깥에 둬서 주소를 변경해야함 --> <!-- 오타주의바람 -->
 	<p>
 	<a id="dUrl" href="" class="fileDown">	
-	
 	첨부파일 다운로드</a>
 	</p>	
-	<%} %>
+	</c:if>
+	
 </article>	
 <div class="btnBox">
-	<a class="btn aBtn" href="<%=request.getContextPath() %>/board/boardModify.aws?bidx=<%=bv.getBidx()%>">수정</a>
-	<a class="btn aBtn" href="<%=request.getContextPath() %>/board/boardDelete.aws?bidx=<%=bv.getBidx()%>">삭제</a>
-	<a class="btn aBtn" href="<%=request.getContextPath() %>/board/boardReply.aws?bidx=<%=bv.getBidx()%>">답변</a>
-	<a class="btn aBtn" href="<%=request.getContextPath() %>/board/boardList.aws">목록</a>
+	<a class="btn aBtn" href="${pageContext.request.contextPath}/board/boardModify.aws?bidx=${bv.bidx}">수정</a>
+	<a class="btn aBtn" href="${pageContext.request.contextPath}/board/boardDelete.aws?bidx=${bv.bidx}">삭제</a>
+	<a class="btn aBtn" href="${pageContext.request.contextPath}/board/boardReply.aws?bidx=${bv.bidx}">답변</a>
+	<a class="btn aBtn" href="${pageContext.request.contextPath}/board/boardList.aws">목록</a>
 </div>
 <article class="commentContents">
 	<form name="frm">
 		<p class="commentWriter" style="width:100px;">
-		<input type="text" id="cwriter" name="cwriter" value="<%=memberName%>" readonly="readonly" style="width:100px;border:0px;">
+		<input type="text" id="cwriter" name="cwriter" value="${memberName}" readonly="readonly" style="width:100px;border:0px;">
 		</p>	
 		<input type="text" id="ccontents" name="ccontents">
 		<button type="button" id="cmtBtn" class="replyBtn">댓글쓰기</button>

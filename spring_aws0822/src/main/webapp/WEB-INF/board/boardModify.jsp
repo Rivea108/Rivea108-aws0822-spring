@@ -1,17 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-     <%@page import="com.myaws.myapp.domain.*" %> 
- <%
- BoardVo bv = (BoardVo)request.getAttribute("bv");   //강제형변환  양쪽형을 맞춰준다 
- %>   
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %> 
+     
+  
     
             <%
     //세션정보를 꺼내서 담겨있지 않으면 로그인 화면으로 넘긴다.
     
     if (session.getAttribute("midx") == null) { //로그인이 되어있지 않다면 로그인을 하라고 로그인 페이지로 밀어냄
-    out.println("<script>alert('로그인을 해주세요');location.href='"+request.getContextPath()+"/member/memberLogin.aws';</script>");
+    out.println("<script>alert('로그인을 해주세요');location.href='"
+    +request.getContextPath()+
+    "/member/memberLogin.aws';</script>");
     	}
     %>
+    
+    <c:if test="${empty midx}">
+    <script>alert("로그인을 해주세요");location.href="${pageContext.request.contextPath}"/member/memberLogin.aws;</script>
+    </c:if>
     
     
 <!DOCTYPE html>
@@ -19,7 +23,7 @@
 <head>
 <meta charset="UTF-8">
 <title>글수정</title>
-<link href="<%=request.getContextPath() %>/resources/css/style2.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/style2.css" rel="stylesheet">
 <script> 
 
 function check() {
@@ -48,7 +52,7 @@ function check() {
 	  let ans = confirm("저장하시겠습니까?");
 	  
 	  if (ans == true) {
-		  fm.action="<%=request.getContextPath()%>/board/boardModifyAction.aws";
+		  fm.action="${pageContext.request.contextPath}/board/boardModifyAction.aws";
 		  fm.method="post";
 		  fm.enctype="multipart/form-data"; //이미지와 문자열을 모두 담아서 넘길수 있게 바이너리타입으로 멀티파트로 넘긴다.
 		  fm.submit();
@@ -65,20 +69,20 @@ function check() {
 </header>
 
 <form name="frm">
-<input type="hidden" name="bidx" value="<%=bv.getBidx()%>">
+<input type="hidden" name="bidx" value="${bv.bidx}">
 
 	<table class="writeTable">
 		<tr>
 			<th>제목</th>
-			<td><input type="text" name="subject" value="<%=bv.getSubject()%>"></td>
+			<td><input type="text" name="subject" value="${bv.subject}"></td>
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td><textarea name="contents" rows="6"> <%=bv.getContents() %></textarea></td>
+			<td><textarea name="contents" rows="6"> ${bv.contents}</textarea></td>
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td><input type="text" name="writer" value="<%=bv.getWriter()%>"></td>
+			<td><input type="text" name="writer" value="${bv.writer}"></td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>

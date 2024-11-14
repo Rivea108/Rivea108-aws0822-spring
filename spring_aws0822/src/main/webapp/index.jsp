@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,17 +7,18 @@
 <title>스프링 학습하기</title>
 </head>
 <body>
+<c:if test= "${!empty sessionScope.midx}">
+${memberName} &nbsp; 
+<a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
+</c:if>
 
-<% if(session.getAttribute("midx") !=null){ 
-out.println(session.getAttribute("membertName")+"<a href='"+request.getContextPath()+"/member/memberLogout.aws'>로그아웃</a>"); //가상경로추가
-}%>
 <br>
-<a href="<%= request.getContextPath() %>/member/memberJoin.aws">회원가입 페이지</a>
+<a href="${pageContext.request.contextPath}/member/memberJoin.aws">회원가입 페이지</a>
 <br>
-<a href="<%= request.getContextPath() %>/member/memberLogin.aws">회원로그인 페이지</a>
+<a href="${pageContext.request.contextPath}/member/memberLogin.aws">회원로그인 페이지</a>
 <br>
-<a href="<%= request.getContextPath() %>/member/memberList.aws">회원목록 페이지</a>
+<a href="${pageContext.request.contextPath}/member/memberList.aws">회원목록 페이지</a>
 <br>
-<a href="<%= request.getContextPath() %>/board/boardList.aws">게시판 페이지</a>
+<a href="${pageContext.request.contextPath}/board/boardList.aws">게시판 페이지</a>
 </body>	
 </html>	
