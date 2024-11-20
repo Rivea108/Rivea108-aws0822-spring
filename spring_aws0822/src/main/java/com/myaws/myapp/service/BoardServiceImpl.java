@@ -113,6 +113,17 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
+	@Override
+	public int boardInsertReact(BoardVo bv) {
+		
+		int value = bm.boardInsert(bv);
+		int maxBidx = bv.getBidx();
+		int value2 = bm.boardOriginbidxUpdate(maxBidx);
+		
+		return value+value2;
+	}
+
+
 	
 }
 

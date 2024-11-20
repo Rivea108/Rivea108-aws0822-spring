@@ -3,7 +3,6 @@ package com.myaws.myapp.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
@@ -19,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -118,6 +119,27 @@ public class BoardController {
 		}
 		return path;
 	}
+	
+	//===============================
+	@ResponseBody
+	@PostMapping("/boardWriteActionReact.aws")
+	public ResponseEntity<BoardVo> boardWriteActionReact(@RequestBody BoardVo bv) {
+		
+		ResponseEntity<BoardVo> entity = null;
+		
+		
+		int value = boardService.boardInsertReact(bv);
+		
+		if(value==2) { //성공
+			entity = new ResponseEntity<BoardVo>(HttpStatus.OK);
+		}else { //실패
+			entity = new ResponseEntity<BoardVo>(HttpStatus.BAD_REQUEST);
+		}
+		
+			return entity;
+	}
+	
+	//================================
 	
 	@RequestMapping(value="boardContents.aws")
 	public String boardContents(@RequestParam("bidx") int bidx, Model model) {	

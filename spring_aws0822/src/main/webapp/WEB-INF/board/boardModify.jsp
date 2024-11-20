@@ -1,22 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %> 
-     
-  
-    
-            <%
-    //세션정보를 꺼내서 담겨있지 않으면 로그인 화면으로 넘긴다.
-    
+   <%--  <%
+    세션정보를 꺼내서 담겨있지 않으면 로그인 화면으로 넘긴다.
     if (session.getAttribute("midx") == null) { //로그인이 되어있지 않다면 로그인을 하라고 로그인 페이지로 밀어냄
     out.println("<script>alert('로그인을 해주세요');location.href='"
     +request.getContextPath()+
     "/member/memberLogin.aws';</script>");
     	}
-    %>
+    %> --%>
     
+    <!-- c:if문 -->
     <c:if test="${empty midx}">
     <script>alert("로그인을 해주세요");location.href="${pageContext.request.contextPath}"/member/memberLogin.aws;</script>
+    <!-- 모디파이 들어가기 전에 인터셉터로 로그인창을 띄우기에 알럿창을 보지 못한다. -->
     </c:if>
-    
     
 <!DOCTYPE html>
 <html>

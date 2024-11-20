@@ -1,24 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %> 
-    <%
-/*  String msg="";
+<%-- <%
+String msg="";
 if(request.getAttribute("msg") != null){빈값이 아닐 때
 msg = (String)request.getAttribute("msg");
 out.println("<script>alert('"+msg+"');</script>"); 빈값일때 
 }
-*/
+%> --%>
 
-//String msg="";
-//if(request.getAttribute("msg") != null){
-//msg = (String)request.getAttribute("msg");
-//}
-//if(msg !="") {
-//	out.println("<script>alert('"+msg+"');</script>");
-//}
-
-%>
-
+<!-- C:IF로 IF문 적기 -->
 <c:if test="${!empty msg}"> <!-- 빈값이 아닐 때 --> <!-- NULL도 가능하지만 엠프티쓰자 -->
 <script>alert('"+msg+"');</script> <!-- 빈값일때 -->	
 </c:if>

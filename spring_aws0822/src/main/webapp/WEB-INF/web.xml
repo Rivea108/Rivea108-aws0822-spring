@@ -33,6 +33,7 @@
 		<url-pattern>*.aws</url-pattern>
 	</servlet-mapping>
 	 
+	 <!-- UTF-8로 인코딩을 할거야 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -44,7 +45,7 @@
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern><!-- 오타 주의바람 -->
-	
+	<!-- UTF-8로 인코딩을 할거야 -->
 	
 	
 	
