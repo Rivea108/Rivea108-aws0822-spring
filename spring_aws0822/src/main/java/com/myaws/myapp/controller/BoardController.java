@@ -122,21 +122,23 @@ public class BoardController {
 	
 	//===============================
 	@ResponseBody
-	@PostMapping("/boardWriteActionReact.aws")
-	public ResponseEntity<BoardVo> boardWriteActionReact(@RequestBody BoardVo bv) {
+	@PostMapping("/boardWriteActionReact.aws") //리액트를 위한 백엔드 주소 생성
+	public JSONObject boardWriteActionReact(@RequestBody BoardVo bv) {
+		System.out.println("제목 : " + bv.getMidx());
 		
-		ResponseEntity<BoardVo> entity = null;
+		//ResponseEntity<BoardVo> entity = null;
 		
-		
-		int value = boardService.boardInsertReact(bv);
+		JSONObject js = new JSONObject();
+		int value = boardService.boardInsert(bv);
+		System.out.println("value : " + value);
 		
 		if(value==2) { //성공
-			entity = new ResponseEntity<BoardVo>(HttpStatus.OK);
+			js.put("result", "success");
 		}else { //실패
-			entity = new ResponseEntity<BoardVo>(HttpStatus.BAD_REQUEST);
+			js.put("result", "fail");
 		}
 		
-			return entity;
+			return js;
 	}
 	
 	//================================
