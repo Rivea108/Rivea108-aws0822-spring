@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myaws.myapp.persistance.MemberMapper"><!-- Member_Mapper마이바티스용  -->
+
+<insert id="memberInsert" parameterType="mv">
+insert into member(memberid,memberpwd,nickname,profile_image,status)
+values(#{memberid},#{memberpwd},#{nickname},#{profile_image},#{status});
+<!-- values(#{memberid},#{memberpwd},#{membername},#{membergender},#{memberbirth},#{memberaddr},#{memberphone},#{memberemail},#{memberhobby});에서 
+마지막인 #{memberhobby}"; 이렇게 해서 에러가 남  -->
+</insert>
+<select id="memberIdCheck" parameterType="String" resultType="int"> <!-- 마이바티스에서는 integer안써도 된다 -->
+select count(*) as cnt from member where memberid=#{memberId}
+</select>
+
+<select id="memberLoginCheck" parameterType="String" resultType="mv"> <!-- 마이바티스에서는 integer안써도 된다 -->
+select * from member where memberid = #{memberId} <!-- and memberpwd = #{memberId} 비밀번호가 없는 값이 들어가서 안됐음 -->
+</select>
+
+<select id="memberSelectAll" resultType="mv">
+select * from member where delyn='N' ORDER BY midx desc
+</select>
+
+
+
+</mapper>

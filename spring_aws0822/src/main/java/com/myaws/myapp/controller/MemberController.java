@@ -38,7 +38,7 @@ public class MemberController { //°´Ã¼»ý¼º
 	
 	 
 	
-	@RequestMapping(value="memberJoin.aws", method=RequestMethod.GET)
+	@RequestMapping(value="PJmemberJoin.aws", method=RequestMethod.GET)
 	public String memberJoin() {
 		logger.info("memberJoinµé¾î¿È");
 		

@@ -3,6 +3,7 @@
 * { line-height: 1.5; font-size: 12px; margin: 0; padding: 0; }
 body { width: 800px; margin: 0 auto; }
 a { text-decoration: none; color: inherit; }
+
 select { cursor: pointer; border-color: lightgray; height: 20px; width: 70px; }
 textarea { border-color: lightgray; padding: 0 5px; }
 input { border: 1px solid lightgray; padding: 0 5px; }

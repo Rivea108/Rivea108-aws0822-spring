@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myaws.myapp.persistance.ReplyMapper">
+
+    <!-- 자바처럼 sql문과 java를 섞어서 사용할 수 없어서 include해서 사용한다 -->
+
+    <!-- 댓글 조회 (모든 댓글) -->
+    <select id="replySelectAll" parameterType="int" resultType="rv">
+        select ridx, midx, bidx, contents as ccontents, 
+               created_at as rcreated_at, modified as rmodified, 
+               delyn as rdelyn, ip as rip
+        from reply 
+        where delyn = 'N' and bidx = #{0} 
+        order by ridx desc 
+        limit 0, #{1}
+    </select>
+
+    <!-- 댓글의 총 개수 -->
+    <select id="replyTotalCnt" parameterType="int" resultType="int">
+        select count(*) as cnt 
+        from reply 
+        where delyn = 'N' and bidx = #{bidx}
+    </select>
+
+    <!-- 댓글 삽입 -->
+    <insert id="replyInsert" parameterType="rv">
+        insert into reply(csubject, ccontents, cwriter, bidx, midx, cip) 
+        values (null, #{contents}, #{writer}, #{bidx}, #{midx}, #{ridx_ip})
+    </insert>
+
+    <!-- 댓글 삭제 -->
+    <update id="replyDelete" parameterType="rv">
+        update reply set delyn = 'Y', cip = #{ridx_ip} 
+        where ridx = #{ridx} and midx = #{midx}
+    </update>
+
+</mapper>

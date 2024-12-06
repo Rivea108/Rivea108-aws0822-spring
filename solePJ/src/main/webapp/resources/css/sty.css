@@ -1,0 +1,197 @@
+@charset "UTF-8";
+
+/* 전역 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #343131; /* 배경색 변경 */
+    color: white; /* 기본 텍스트 색상 */
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #343131; /* 배경색 변경 */
+    padding: 10px 20px;
+    color: white;
+    margin-bottom: 10px; /* header 아래 공간 줄이기 */
+}
+
+header h3 {
+    margin: 0;
+}
+
+header .logo {
+    height: 30px;
+}
+
+header button {
+    background-color: #343131; /* 배경색 변경 */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+header button:hover {
+    background-color: #555;
+}
+
+header form {
+    flex-grow: 1;
+    display: flex;
+}
+
+/* 검색창 */
+header input[type="text"] {
+    width: 200px;
+    padding: 5px;
+    font-size: 14px;
+    background-color: white; /* 배경색을 흰색으로 설정 */
+    color: black; /* 글자색을 검은색으로 설정 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 회원가입 폼 스타일 */
+main {
+    background-color: #66648B;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%; /* 기본 너비 */
+    max-width: 600px; /* 최대 너비 */
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+form input[type="email"],
+form input[type="password"],
+form input[type="text"],
+form input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #343131; /* 입력창 배경색을 검정색으로 설정 */
+    color: black; /* 텍스트 색상을 검정색으로 설정 */
+    box-sizing: border-box;
+}
+
+form input[type="email"]::placeholder,
+form input[type="password"]::placeholder,
+form input[type="text"]::placeholder {
+    color: #999; /* placeholder 텍스트 색상을 회색으로 설정 */
+}
+
+/* 버튼 스타일 */
+form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #66648B; /* 버튼 배경색을 #66648B로 설정 */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #555;
+}
+
+a {
+    color: white; /* 글자 색을 흰색으로 설정 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+/* 보더 메인 */
+/* 채널 레이아웃 */
+.channels {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.channel-row {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.channel {
+    margin: 0 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.middle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+hr {
+    margin: 30px 0;
+    margin-top: 5px; /* hr 위 공간 줄이기 */
+}                                
+
+/* 알림 */
+  /* 알림 컨테이너 스타일 */
+        .notification-container {
+            display: flex;
+            flex-direction: column-reverse; /* 최신 알림이 위에 표시 */
+            gap: 10px;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 600px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        /* 알림 항목 스타일 */
+        .notification-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 타임스탬프 스타일 */
+        .timestamp {
+            font-size: 12px;
+            color: gray;
+            text-align: right;
+        }
+
+        /* 광고 배너 스타일 */
+        .advertisement {
+            margin: 10px 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+.container {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.line {
+    width: 1px; /* 선 두께 */
+    background-color: red; /* 선 색상 */
+    height: 100%;
+}
